@@ -1,33 +1,42 @@
-# Website
+## Docusaurus v2: Show Document On Sidebar Category Click
 
-This website is built using [Docusaurus 2](https://v2.docusaurus.io/), a modern static website generator.
+_My Docusaurus v2 is on 2.0.0-alpha.69 when creating this example repo_
 
-## Installation
+Some users of Docusaurus v2 want to make sidebar category clickable and show relevant doc (maybe some intro or TOC). Unfortunately it's not supported yet. See [this issue](https://github.com/facebook/docusaurus/issues/2643) and [this issue](https://github.com/facebook/docusaurus/issues/3686)
 
-```console
-yarn install
+My aim is to customize Docusaurus v2 without changing it too much. Lets go step by step from starting new Docusaurus v2 project with classic theme:
+
+### 1. Init New Project With Classic Theme
+
+`npx @docusaurus/init@latest init docusaurus-playground classic`
+
+### 2. Prepare Sidebar Data
+
+in `sidebars.js`
+
+```
+module.exports = {
+  someSidebar: {
+    "Category One": ["toc1", 'doc1', 'doc2', 'doc3'],
+    "Category Two": ["toc2", 'mdx'],
+  },
+};
 ```
 
-## Local Development
+We will use first index in each array as catagory doc.
 
-```console
-yarn start
+### 3. Swizzle DocSidebar Component
+
+Copy classic theme's component that we want to modify.
+
+```
+yarn run swizzle @docusaurus/theme-classic DocSidebar
 ```
 
-This command starts a local development server and open up a browser window. Most changes are reflected live without having to restart the server.
+Do not forget to restart dev server after swizzling.
 
-## Build
+### 4. Modify DocSidebar index.js
 
-```console
-yarn build
-```
+We will modify `DocSidebarItemLink` component. Look at the code in this repo.
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
-
-```console
-GIT_USER=<Your GitHub username> USE_SSH=true yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+### 5. Test it!
